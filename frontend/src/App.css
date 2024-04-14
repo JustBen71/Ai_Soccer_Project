@@ -1,0 +1,53 @@
+
+
+.image-radius {
+  border-radius: 50%;
+}
+/**
+  Général
+**/
+
+.color-navbar {
+  background-color: #006143;
+}
+
+/**
+  Page login
+**/
+
+.card-login {
+  width: 36rem;
+}
+
+/**
+  Page Accueil
+**/
+
+body{
+  background-color: rgb(244 206 197);
+  background-image: url('../public/imageaccueil.jpg');
+
+  background-origin: border-box;
+  background-repeat: repeat;
+  background-size: cover;
+  background-size: 120%;
+  background-position: center;
+  margin:auto;
+
+  height: 100vh;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
