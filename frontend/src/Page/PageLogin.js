@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 function Login() {
 
@@ -42,27 +41,33 @@ function Login() {
 }
 
 async function login() {
-    var output = await fetch('http://192.168.1.59:8000/login_check',
+    var output = await fetch('http://192.168.1.59/login_check',
     {
         method: "POST",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
-            //"Content-Transfer-Encoding": "application/json"
         },
         body: JSON.stringify({'username': document.getElementById('loginInput').value, "password": document.getElementById('passwordInput').value})
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        localStorage.setItem("token", data['token']);
-        var a = document.createElement('a');
-        a.href = "/";
-        a.click();
+        if(data["token"])
+        {
+            localStorage.setItem("token", data['token']);
+            var a = document.createElement('a');
+            a.href = "/";
+            a.click();
+        }
+        else
+        {
+            document.getElementById('erreur_message').textContent = "Mot de passe ou email incorrect !";
+            document.getElementById('erreur_message').classList.remove('d-none');
+        }
     }).catch((data) => {
-
+        document.getElementById('erreur_message').textContent = "Mot de passe ou email incorrect !";
+        document.getElementById('erreur_message').classList.remove('d-none');
     });
-    document.getElementById('erreur_message').textContent = "Mot de passe ou email incorrect !";
-    document.getElementById('erreur_message').classList.remove('d-none');
 }
 
 export default Login;

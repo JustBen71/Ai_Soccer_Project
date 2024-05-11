@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import Logo from '../Assets/Image/Logo.png';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 
 function NavigationBar() {
@@ -29,10 +30,10 @@ function NavigationBar() {
                                     <a className="nav-link text-light" href="#"><strong>Match</strong></a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link text-light" href="#"><strong>Mes équipes</strong></a>
+                                    <a className="nav-link text-light" href="/equipe"><strong>Mes équipes</strong></a>
                                 </li>
                                 <li className="nav-item">
-                                <a className="nav-link text-light" onClick={test} href="#"><strong>Mon Profil</strong></a>
+                                <a className="nav-link text-light" href="/profile"><strong>Mon Profil</strong></a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link text-light" href="/" onClick={logout}><strong>Déconnexion</strong></a>
@@ -59,25 +60,4 @@ function NavigationBar() {
 async function logout() {
     localStorage.removeItem("token");
 }
-
-async function test()
-{
-    var user = await fetch('http://192.168.1.59:8000/user',
-        {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-                //"Content-Transfer-Encoding": "application/json"
-            },
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            console.log(data);
-        }).catch((data) => {
-
-        });
-    console.log(user);
-}
-
 export default NavigationBar;

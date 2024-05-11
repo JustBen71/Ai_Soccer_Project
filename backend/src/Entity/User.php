@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,6 +32,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(targetEntity: Skin::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $skins;
+
+    public function __construct()
+    {
+        $this->skins = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +114,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Skin>
+     */
+    public function getSkins(): Collection
+    {
+        return $this->skins;
+    }
+
+    public function addSkin(Skin $skin): static
+    {
+        if (!$this->skins->contains($skin)) {
+            $this->skins->add($skin);
+            $skin->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkin(Skin $skin): static
+    {
+        if ($this->skins->removeElement($skin)) {
+            // set the owning side to null (unless already changed)
+            if ($skin->getUser() === $this) {
+                $skin->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
