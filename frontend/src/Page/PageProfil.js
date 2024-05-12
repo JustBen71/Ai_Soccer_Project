@@ -72,8 +72,8 @@ function Profile() {
 
 async function editProfile() {
     var token = localStorage.getItem('token')
-    console.log(token)
-    var output = await fetch('http://192.168.1.59/user/',
+    var url = localStorage.getItem("url")
+    var output = await fetch(url+'/user/',
         {
             method: "PUT",
             headers: {
@@ -85,7 +85,6 @@ async function editProfile() {
         }).then((response) => {
         return response.json();
     }).then((data) => {
-        console.log(data)
         if (data["error"]) {
             document.getElementById('erreur_message').textContent = "Erreur lors de la modification de l'email !";
             document.getElementById('erreur_message').classList.remove('d-none');

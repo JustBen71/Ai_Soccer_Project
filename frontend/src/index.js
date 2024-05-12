@@ -10,7 +10,11 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Profile from './Page/PageProfil';
 import Equipe from "./Page/PageEquipe";
+import Register from "./Page/PageRegister";
+import Match from "./Page/PageMatch";
+//require('dotenv').config()
 
+localStorage.setItem("url", "http://192.168.1.22")
 const navbar = ReactDOM.createRoot(document.getElementById('navbar'));
 navbar.render(
   <React.StrictMode>
@@ -24,9 +28,9 @@ root.render(
       <Routes>
         <Route path="/" element={<Accueil/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/register" />
+        <Route path="/register" element={localStorage.getItem("token") ? <Accueil/> : <Register/>}/>
         <Route path="/profile" element={localStorage.getItem("token") ? <Profile/> : <Accueil/>}/>
-        <Route path="/match" />
+        <Route path="/match" element={localStorage.getItem("token") ? <Match/> : <Accueil/>}/>
         <Route path="/equipe" element={localStorage.getItem("token") ? <Equipe/> : <Accueil/>}/>
       </Routes>
     </Router>

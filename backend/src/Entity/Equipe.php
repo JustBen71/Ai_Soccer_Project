@@ -21,6 +21,10 @@ class Equipe
     #[ORM\OneToMany(targetEntity: Joueur::class, mappedBy: 'equipe', orphanRemoval: true)]
     private Collection $joueurs;
 
+    #[ORM\ManyToOne(inversedBy: 'equipes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?user $user = null;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
@@ -69,6 +73,18 @@ class Equipe
                 $joueur->setEquipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

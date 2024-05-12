@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 function Login() {
 
     return (
@@ -41,7 +40,9 @@ function Login() {
 }
 
 async function login() {
-    var output = await fetch('http://192.168.1.59/login_check',
+    var url = localStorage.getItem("url")
+
+    var output = await fetch(url+'/login_check',
     {
         method: "POST",
         mode: "cors",

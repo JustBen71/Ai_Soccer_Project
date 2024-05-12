@@ -14,6 +14,24 @@ function Equipe() {
     // Fonction pour générer les rows et les colonnes
     const renderJoueurs = () => {
         let rows = [];
+        var row = (<div className="row">
+            <div className={"col-5"}>
+
+            </div>
+            <div className={"col-2"}>
+                <div className="card mt-2 card-equipe">
+                    <div className="card-body">
+                        <label htmlFor={"nomequipe"}>Nom de l'équipe : </label>
+                        <input type="text" className="form-control" id={`nomequipe`} name={`nomequipe`} placeholder="Nom de l'équipe ..." />
+                        <span id={`nomequipe_erreur`} name={`nomequipe_erreur`} className={"text-danger"}></span>
+                    </div>
+                </div>
+            </div>
+            <div className={"col-5"}>
+
+            </div>
+        </div>);
+        rows.push(row)
         for (let i = 0; i < joueurs.length; i += 4) {
             let rowItems = joueurs.slice(i, i + 4).map(joueur => (
                 <div className="col-md-3" key={joueur.id}>
@@ -25,19 +43,19 @@ function Equipe() {
                                     <div className="col-6">
                                         <label htmlFor={`joueur_${joueur.id}_nom`}>Nom</label>
                                         <input type="text" className="form-control" id={`joueur_${joueur.id}_nom`} name={`joueur_${joueur.id}_nom`} placeholder="Nom ..." />
-                                        <span id={`joueur_${joueur.id}_nom_erreur`} name={`joueur_${joueur.id}_nom_erreur`}></span>
+                                        <span id={`joueur_${joueur.id}_nom_erreur`} name={`joueur_${joueur.id}_nom_erreur`} className={"text-danger"}></span>
                                     </div>
                                     <div className="col-6">
                                         <label htmlFor={`joueur_${joueur.id}_prenom`}>Prénom</label>
                                         <input type="text" className="form-control" id={`joueur_${joueur.id}_prenom`} name={`joueur_${joueur.id}_prenom`} placeholder="Prénom ..." />
-                                        <span id={`joueur_${joueur.id}_prenom_erreur`} name={`joueur_${joueur.id}_prenom_erreur`}></span>
+                                        <span id={`joueur_${joueur.id}_prenom_erreur`} name={`joueur_${joueur.id}_prenom_erreur`} className={"text-danger"}></span>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">
                                         <label htmlFor={`joueur_${joueur.id}_age`}>Age</label>
                                         <input type="number" className="form-control" id={`joueur_${joueur.id}_age`} name={`joueur_${joueur.id}_age`} placeholder="Age ..." min="0" max="255" />
-                                        <span id={`joueur_${joueur.id}_age_erreur`} name={`joueur_${joueur.id}_nom_erreur`}></span>
+                                        <span id={`joueur_${joueur.id}_age_erreur`} name={`joueur_${joueur.id}_nom_erreur`} className={"text-danger"}></span>
                                     </div>
                                     <div className="col-8">
                                         <label htmlFor={`joueur_${joueur.id}_poste`}>Poste</label>
@@ -59,14 +77,14 @@ function Equipe() {
                                             <option value="AD">Attaquant Droit (A D)</option>
                                             <option value="AC">Attaquant Axial (A C)</option>
                                         </select>
-                                        <span id={`joueur_${joueur.id}_poste_erreur`} name={`joueur_${joueur.id}_poste_erreur`}></span>
+                                        <span id={`joueur_${joueur.id}_poste_erreur`} name={`joueur_${joueur.id}_poste_erreur`} className={"text-danger"}></span>
                                     </div>
                                 </div>
                                 <div className="row">
                                 <div className="col-12">
                                         <label htmlFor={`joueur_${joueur.id}_description`}>Description</label>
                                         <input type="text" className="form-control" id={`joueur_${joueur.id}_description`} name={`joueur_${joueur.id}_description`} maxLength="255" placeholder="Description (physique, mental) ..." />
-                                        <span id={`joueur_${joueur.id}_description_erreur`} name={`joueur_${joueur.id}_description_erreur`}></span>
+                                        <span id={`joueur_${joueur.id}_description_erreur`} name={`joueur_${joueur.id}_description_erreur`} className={"text-danger"}></span>
                                     </div>
                                 </div>
                             </div>
@@ -116,15 +134,15 @@ async function newEquipe() {
             joueurs[i-1]["poste"] = document.getElementById('joueur_'+i+'_poste').options[document.getElementById('joueur_'+i+'_poste').selectedIndex].value
             joueurs[i-1]["description"] = document.getElementById('joueur_'+i+'_description').value
         }
-        console.log(joueurs)
-        var output = await fetch('http://192.168.1.59/equipe/new',
+        var url = localStorage.getItem("url")
+        var output = await fetch(url+'/equipe/new',
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({'joueurs': joueurs})
+                body: JSON.stringify({'joueurs': joueurs, 'nomequipe': document.getElementById('nomequipe').value})
             }).then((response) => {
             return response.json();
         }).then((data) => {
@@ -151,14 +169,24 @@ async function newEquipe() {
 }
 
 function verificationDonnees(data) {
+    var spans = document.querySelectorAll('span')
+    for(var i = 0; i < spans.length; i++)
+    {
+       spans[i].textContent = ""
+    }
     var donneeOk = true
     if(data.length >= 1)
     {
         donneeOk = false
-        for (const index in data) {
-            if (data.hasOwnProperty(index)) {
-                document.getElementById("joueur_"+index+"_"+data[index]["champs"]+"_erreur").textContent = data[index]["message"]
+        if(data[0])
+        {
+            if(data[0]["champs"] == "nomequipe")
+            {
+                document.getElementById("nomequipe_erreur").textContent = data[0]["message"]
             }
+        }
+        for (const index of data.keys()) {
+            document.getElementById("joueur_"+(index+1)+"_"+data[index]["champs"]+"_erreur").textContent = data[index]["message"]
         }
     }
 

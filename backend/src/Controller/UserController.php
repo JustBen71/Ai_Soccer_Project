@@ -16,16 +16,50 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserController extends AbstractController
 {
     #[Route('/new', name: 'app_user_new', methods:["POST"])]
-    public function newUser(EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasherInterface): JsonResponse
+    public function newUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasherInterface): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
         $user = new User();
-        $user->setEmail("admin@gmail.com");
-        $user->setRoles(["ROLE_USER"]);
-        $user->setPassword($userPasswordHasherInterface->hashPassword($user, "admin"));
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $tableauRetour = [];
+        if($data["username"] != null && strlen($data["username"]) <= 255 && filter_var($data["username"], FILTER_VALIDATE_EMAIL))
+        {
+            if(strlen($data["password"]) > 4 && strlen($data["confirmpassword"]) > 4)
+            {
+                if($data["password"] == $data["confirmpassword"])
+                {
+                    $user->setEmail($data["username"]);
+                    $user->setRoles(["ROLE_USER"]);
+                    $user->setPassword($userPasswordHasherInterface->hashPassword($user, $data["password"]));
+                    try {
+                        $entityManager->persist($user);
+                        $entityManager->flush();
+                    }
+                    catch (\Exception $ex)
+                    {
+                        var_dump($ex->getMessage());
+                        $tableauRetour["champs"] = "login";
+                        $tableauRetour["message"] = "Erreur lors de l'enregistrement vérifier la validité de votre adresse mail";
+                    }
+                }
+                else
+                {
+                    $tableauRetour["champs"] = "confirmpassword";
+                    $tableauRetour["message"] = "Mot de passe différent";
+                }
+            }
+            else
+            {
+                $tableauRetour["champs"] = "password";
+                $tableauRetour["message"] = "Mot de passe trop court";
+            }
+        }
+        else
+        {
+            $tableauRetour["champs"] = "login";
+            $tableauRetour["message"] = "Email invalide";
+        }
 
-        return new JsonResponse($user);
+        return new JsonResponse($tableauRetour);
     }
 
     #[Route('/', name: 'app_user', methods:["GET"])]

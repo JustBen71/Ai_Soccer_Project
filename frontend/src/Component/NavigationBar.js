@@ -27,7 +27,7 @@ function NavigationBar() {
                             // Affiche ces liens si l'utilisateur est connecté
                             <>
                                 <li className="nav-item">
-                                    <a className="nav-link text-light" href="#"><strong>Match</strong></a>
+                                    <a className="nav-link text-light" href="/match"><strong>Match</strong></a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link text-light" href="/equipe"><strong>Mes équipes</strong></a>
