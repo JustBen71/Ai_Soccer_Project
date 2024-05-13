@@ -33,9 +33,6 @@ function NavigationBar() {
                                     <a className="nav-link text-light" href="/equipe"><strong>Mes équipes</strong></a>
                                 </li>
                                 <li className="nav-item">
-                                <a className="nav-link text-light" href="/profile"><strong>Mon Profil</strong></a>
-                                </li>
-                                <li className="nav-item">
                                     <a className="nav-link text-light" href="/" onClick={logout}><strong>Déconnexion</strong></a>
                                 </li>
                             </>

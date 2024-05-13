@@ -27,18 +27,36 @@
   Page Accueil
 **/
 
-body{
-  background-color: rgb(244 206 197);
-  background-image: url('../public/imageaccueil.jpg');
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
 
+#root {
+  flex-grow: 1;
+  width: 100%;
+  background-image: url('../public/imageaccueil.jpg');
   background-origin: border-box;
-  background-repeat: repeat;
-  background-size: cover;
+  background-repeat: no-repeat;
   background-size: 120%;
   background-position: center;
-  margin:auto;
+  margin: 0 auto;
+}
 
-  height: 100vh;
+#footer {
+  background-color: #006143;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+/** Page Match **/
+
+#listeAction {
+  overflow-y: auto;
+  max-height: 70vh;
 }
 
 @media (prefers-reduced-motion: no-preference) {

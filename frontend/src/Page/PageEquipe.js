@@ -34,7 +34,7 @@ function Equipe() {
         rows.push(row)
         for (let i = 0; i < joueurs.length; i += 4) {
             let rowItems = joueurs.slice(i, i + 4).map(joueur => (
-                <div className="col-md-3" key={joueur.id}>
+                <div className="col-md-3" id={joueur.id}>
                     <div className="card mt-2 card-equipe">
                         <div className="card-body">
                             <h5 className="card-title">Joueur n°{joueur.id}</h5>
@@ -92,7 +92,7 @@ function Equipe() {
                     </div>
                 </div>
             ));
-            rows.push(<div className="row" key={i}>{rowItems}</div>);
+            rows.push(<div className="row" id={i}>{rowItems}</div>);
         }
         return rows;
     }
@@ -100,7 +100,10 @@ function Equipe() {
     return (
         <div className="container-fluid">
             <div className={"row"}>
-                <div className={"col-12 text-center text-light"}>
+                <div className={"col-4"}>
+
+                </div>
+                <div className={"col-4 text-center text-light rounded-pill color-navbar mt-2"}>
                     <h1>Création de votre équipe</h1>
                 </div>
             </div>
@@ -109,7 +112,7 @@ function Equipe() {
                 <div className={"col-5"}>
 
                 </div>
-                <div className={"col-2 text-center mt-2"}>
+                <div className={"col-2 text-center mt-2 mb-2"}>
                     <button id={"buttonEquipe"} className={"btn btn-primary"} onClick={newEquipe}>Valider l'équipe</button>
                 </div>
                 <div className={"col-5"}>
