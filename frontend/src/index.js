@@ -17,7 +17,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Footer from "./Component/Footer";
 //require('dotenv').config()
 
-localStorage.setItem("url", "http://192.168.35.23")
+localStorage.setItem("url", "http://51.210.242.105")
 const navbar = ReactDOM.createRoot(document.getElementById('navbar'));
 navbar.render(
   <React.StrictMode>
