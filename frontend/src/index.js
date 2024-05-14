@@ -16,7 +16,7 @@ import MatchIA from "./Page/PageMatchIa";
 import Footer from "./Component/Footer";
 //require('dotenv').config()
 
-localStorage.setItem("url", "http://192.168.1.22")
+localStorage.setItem("url", "http://192.168.35.23")
 const navbar = ReactDOM.createRoot(document.getElementById('navbar'));
 navbar.render(
   <React.StrictMode>
