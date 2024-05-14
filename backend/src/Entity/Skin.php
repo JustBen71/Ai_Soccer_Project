@@ -22,10 +22,6 @@ class Skin
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'skins')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $user = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -63,18 +59,6 @@ class Skin
     public function setImage(string $image): static
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    public function getUser(): ?user
-    {
-        return $this->user;
-    }
-
-    public function setUser(?user $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }

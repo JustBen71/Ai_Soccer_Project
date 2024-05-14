@@ -33,11 +33,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(targetEntity: Skin::class, mappedBy: 'user', orphanRemoval: true)]
-    private Collection $skins;
-
     #[ORM\OneToMany(targetEntity: Equipe::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $equipes;
+
+    #[ORM\ManyToMany(targetEntity: Skin::class, mappedBy: 'users')]
+    private Collection $skins;
 
     public function __construct()
     {
@@ -121,36 +121,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Skin>
-     */
-    public function getSkins(): Collection
-    {
-        return $this->skins;
-    }
-
-    public function addSkin(Skin $skin): static
-    {
-        if (!$this->skins->contains($skin)) {
-            $this->skins->add($skin);
-            $skin->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSkin(Skin $skin): static
-    {
-        if ($this->skins->removeElement($skin)) {
-            // set the owning side to null (unless already changed)
-            if ($skin->getUser() === $this) {
-                $skin->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Equipe>
      */
     public function getEquipes(): Collection
@@ -175,6 +145,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($equipe->getUser() === $this) {
                 $equipe->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Skin>
+     */
+    public function getSkins(): Collection
+    {
+        return $this->skins;
+    }
+
+    public function addSkin(Skin $skin): static
+    {
+        if (!$this->skins->contains($skin)) {
+            $this->skins->add($skin);
+            $skin->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkin(Skin $skin): static
+    {
+        if ($this->skins->removeElement($skin)) {
+            $skin->removeUser($this);
         }
 
         return $this;
