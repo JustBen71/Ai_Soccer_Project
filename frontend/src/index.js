@@ -13,6 +13,7 @@ import Equipe from "./Page/PageEquipe";
 import Register from "./Page/PageRegister";
 import Match from "./Page/PageMatch";
 import MatchIA from "./Page/PageMatchIa";
+import { Analytics } from "@vercel/analytics/react";
 import Footer from "./Component/Footer";
 //require('dotenv').config()
 
@@ -27,6 +28,7 @@ navbar.render(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
+        <Analytics />
       <Routes>
         <Route path="/" element={<Accueil/>}/>
         <Route path="/login" element={<Login/>}/>
