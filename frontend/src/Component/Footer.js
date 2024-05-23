@@ -1,4 +1,5 @@
 import Logo from "../Assets/Image/Logo.png";
+import Insta from '../Assets/Image/inst.png';
 
 function Footer() {
 
@@ -12,7 +13,7 @@ function Footer() {
             </div>
 
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
-                <li className="ms-3"><a className="text-body-secondary" href="#"><svg className="bi" width="24" height="24"></svg></a></li>
+                <li className="ms-3"><a className="text-body-secondary" href="https://www.instagram.com/aisoccerofficiel/"><img className="image-radius" height="50px" width="50px" src={Insta}></img></a></li>
                 <li className="ms-3"><a className="text-body-secondary" href="#"><svg className="bi" width="24" height="24"></svg></a></li>
                 <li className="ms-3"><a className="text-body-secondary" href="#"><svg className="bi" width="24" height="24"></svg></a></li>
             </ul>
